@@ -9,4 +9,4 @@ To install and boot this service you would need the following:
   
 Boot it via waitress with the command below
 
-waitress-serve --port=80 --call "app.app:app"
+    waitress-serve --port=80 --call "app.app:app"
