@@ -6,7 +6,9 @@ authors = ["Andrew Makar <makarandrew894@gamil.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.10.7"
+Flask = "^2.2.2"
+waitress = "^2.1.2"
 
 
 [build-system]
