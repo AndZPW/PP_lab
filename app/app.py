@@ -8,7 +8,7 @@ status_code: int = 200
 
 
 @app.route('/api/v1/hello-world-11')
-def index(variant: int):
+def index():
     return make_response(f"Hello World 11", status_code)
 
 
