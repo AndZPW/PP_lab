@@ -1,0 +1,709 @@
+openapi: 3.0.3
+info:
+  title: PP_LAB_5
+  description: ''
+  contact:
+    email: fridmangg07@gmail.com 
+  version: 0.1.0
+
+paths:
+  /user/register:
+    post:
+      tags:
+        - User
+      summary: Register a user
+      description: ''
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /user/login:
+    post:
+      tags:
+        - User
+      summary: Logs user into the system
+      description: ''
+      operationId: loginUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUserRequest'
+      responses:
+        '200':
+          description: ''
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /user/logout:
+    post:
+      tags:
+        - User
+      summary: Logs out current logged in user session
+      description: ''
+      operationId: logoutUser
+      parameters: []
+      responses:
+        default:
+          description: ''
+
+  /user/{userId}:
+    get:
+      tags:
+        - User
+      summary: Get user by user id
+      description: ''
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'          
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    put:
+      tags:
+        - User
+      summary: Update user by user id
+      description: ''
+      operationId: updateUserById
+      parameters:
+        - name: userId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Update user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'          
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    delete:
+      tags:
+        - User
+      summary: Delete user by user id
+      description: ''
+      operationId: deleteUserById
+      parameters:
+        - name: userId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'          
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /budget/create:
+    post:
+      tags:
+        - Budget
+      summary: Create an budget
+      description: ''
+      operationId: createBudget
+      requestBody:
+        description: Created budget object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBudgetRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetResponse'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /budget:
+    get:
+      tags: 
+        - Budget
+      summary: Get a list of budgets
+      description: ''
+      operationId: getBudgets
+      parameters:
+        - name: cursor
+          in: query
+          description: From which location in the list to continue pulling results from.
+          schema:
+            type: string
+            description: From which location in the list to continue pulling results from.
+            nullable: true
+        - name: limit
+          in: query
+          description: A limit on the number of objects to be returned. Default is 20.
+          schema:
+            type: integer
+            description: A limit on the number of objects to be returned. Default is 20.
+            format: int32
+            nullable: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetList'          
+        '404':
+          description: Budgets not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /budget/{budgetId}:
+    get:
+      tags:
+        - Budget
+      summary: Get budget by budget id
+      description: ''
+      operationId: getBudgetById
+      parameters:
+        - name: budgetId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetResponse'          
+        '404':
+          description: Budget not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    put:
+      tags:
+        - Budget
+      summary: Update budget by budget id
+      description: ''
+      operationId: updateBudgetById
+      parameters:
+        - name: budgetId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Update budget object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBudgetRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetResponse'          
+        '404':
+          description: Budget not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    delete:
+      tags:
+        - Budget
+      summary: Delete budget by budget id
+      description: ''
+      operationId: deleteBudgetById
+      parameters:
+        - name: budgetId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetResponse'          
+        '404':
+          description: Budget not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+  
+  /account:        
+    get:
+      tags: 
+        - Account
+      summary: Get a list of accounts
+      description: ''
+      operationId: getAccounts
+      parameters:
+        - name: cursor
+          in: query
+          description: From which location in the list to continue pulling results from.
+          schema:
+            type: string
+            description: From which location in the list to continue pulling results from.
+            nullable: true
+        - name: limit
+          in: query
+          description: A limit on the number of objects to be returned. Default is 20.
+          schema:
+            type: integer
+            description: A limit on the number of objects to be returned. Default is 20.
+            format: int32
+            nullable: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountList'          
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  
+  /account/create:
+    post:
+      tags:
+        - Account
+      summary: Create an budget
+      description: ''
+      operationId: createAccount
+      requestBody:
+        description: Created budget object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  
+  /account/{accountId}:
+    get:
+      tags:
+        - Account
+      summary: Get account by account id
+      description: ''
+      operationId: getAccountById
+      parameters:
+        - name: accountId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'          
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    put:
+      tags:
+        - Account
+      summary: Update account by account id
+      description: ''
+      operationId: updateAccountById
+      parameters:
+        - name: accountId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Update account object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'          
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    delete:
+      tags:
+        - Account
+      summary: Delete account by account id
+      description: ''
+      operationId: deleteAccountById
+      parameters:
+        - name: accountId
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'          
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+                
+components:
+  schemas:
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 77
+        username:
+          type: string
+          example: ZOG_7
+        firstName:
+          type: string
+          example: Steve
+        lastName:
+          type: string
+          example: Fridman
+        email:
+          type: string
+          example: fridmangg07@gmail.com
+        
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          example: ZOG_7
+        firstName:
+          type: string
+          example: Steve
+        lastName:
+          type: string
+          example: Fridman
+        email:
+          type: string
+          example: fridmangg07@gmail.com
+        password:
+          type: string
+          example: 'L8OS5Z9ET7A4S'
+
+    LoginUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: ZOG_7
+        password:
+          type: string
+          example: 'L8OS5Z9ET7A4S'
+            
+    BudgetResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 66
+        title:
+          type: string
+          example: My_Budget
+        record_id:
+          type: integer
+          example: 5
+        name_user:
+          type: string
+          example: Frank
+        income:
+          type: integer
+          example: 32000
+        outcome:
+          type: integer
+          example: 22000
+        date:
+          type: string
+          format: date-time
+        available_balance:
+          type: integer
+          example: 10000  
+        userId:
+          type: integer
+          example: 77
+    
+    AccountResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 66
+        number:
+          type: string
+          example: '4444444444444'
+        cv:
+          type: string
+          example: '44\44'
+        password:
+          type: string
+          example: '4444'
+          
+        available_balance:
+          type: integer
+          example: 10000  
+        userId:
+          type: integer
+          example: 77
+        
+    
+    AccountList:
+      type: object
+      properties:
+        items: 
+          type: array
+          items: 
+            $ref: '#/components/schemas/AccountResponse'
+          nullable: true
+        cursorNext:
+          type: string
+          description: 'What to pass back to get the next set of items'
+          nullable: true
+    
+    BudgetList:
+      type: object
+      properties:
+        items: 
+          type: array
+          items: 
+            $ref: '#/components/schemas/BudgetResponse'
+          nullable: true
+        cursorNext:
+          type: string
+          description: 'What to pass back to get the next set of items'
+          nullable: true
+
+  
+
+    CreateBudgetRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          example: My_Budget
+        record_id:
+          type: integer
+          example: 5
+        name_user:
+          type: string
+          example: Frank
+        income:
+          type: integer
+          example: 32000
+        outcome:
+          type: integer
+          example: 22000
+        date:
+          type: string
+          format: date-time
+        available_balance:
+          type: integer
+          example: 10000  
+        userId:
+          type: integer
+          example: 77
+        
+    UpdateBudgetRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          example: My_Budget
+        record_id:
+          type: integer
+          example: 5
+        name_user:
+          type: string
+          example: Frank
+        income:
+          type: integer
+          example: 32000
+        outcome:
+          type: integer
+          example: 22000
+        date:
+          type: string
+          format: date-time
+        available_balance:
+          type: integer
+          example: 10000  
+        userId:
+          type: integer
+          example: 77
+    
+    UpdateAccountRequest:
+      type: object
+      properties:
+        number:
+          type: string
+          example: '4444444444444'
+        cv:
+          type: string
+          example: '44\44'
+        password:
+          type: string
+          example: '4444'
+          
+        available_balance:
+          type: integer
+          example: 10000  
+        userId:
+          type: integer
+          example: 77
+        
+    ErrorModel:
+      description: Detailed information about the error that occurred during the operation.
+      type: object
+      properties:
+        traceId:
+          description: Identifier of an operation.
+          type: string
+          nullable: true
+          readOnly: true
+        errors:
+          description: Collection of the errors that occurred during the operation.
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                description: Description of the error.
+                type: string
+                nullable: true
+                readOnly: true
+              source:
+                description: Source where the error occurred.
+                type: string
+                nullable: true
+                readOnly: true
